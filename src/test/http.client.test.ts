@@ -1,3 +1,4 @@
+import { HttpMethod } from "../main/do.request";
 import { HttpClient } from "../main/http.client";
 
 describe("HttpClient Test Suite", () => {
@@ -194,5 +195,34 @@ describe("HttpClient Test Suite", () => {
 			expect((error as Error).message).toBe("GET fails");
 			expect(fetch).toBeCalledTimes(3);
 		}
+	});
+
+	test("should can send post request correcly with serialization config", async () => {
+		const serialization = {
+			input: jest.fn().mockReturnValue({ complex_field_name: "Complex Field Name" }),
+			output: jest.fn().mockReturnValue({ apiStatus: "POST OK" }),
+		};
+
+		const client = new HttpClient({
+			serialization,
+		});
+
+		global.fetch = jest.fn().mockResolvedValueOnce({
+			json: () => Promise.resolve({ api_status: "POST OK" }),
+			ok: true,
+		});
+
+		const response = await client.post<{ status: string }>("http://test.com", {
+			body: { complexFieldName: "Complex Field Name" },
+		});
+
+		expect(fetch).toBeCalledWith("http://test.com", {
+			body: { complex_field_name: "Complex Field Name" },
+			method: HttpMethod.POST,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			signal: expect.anything(),
+		});
+
+		expect(response).toEqual({ apiStatus: "POST OK" });
 	});
 });

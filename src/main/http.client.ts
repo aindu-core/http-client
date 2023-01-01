@@ -11,36 +11,45 @@ export type HttpClientConfig = {
 	basePath?: string;
 	serialization?: {
 		input?: (obj: unknown) => unknown;
-		outout?: (obj: unknown) => unknown;
+		output?: (obj: unknown) => unknown;
 	};
 };
 
+export type MakeRequestConfig = RequestConfig & { retries?: number };
+
 export class HttpClient {
-	private readonly config: HttpClientConfig;
+	constructor(private readonly config: HttpClientConfig = {} as HttpClientConfig) {}
 
-	constructor(clientConfig?: HttpClientConfig) {
-		this.config = clientConfig ?? {};
-	}
-
-	async makeRequest<T = unknown>(
-		url: string,
-		requestConfig: RequestConfig & { retries?: number }
-	): Promise<T> {
+	async makeRequest<T = unknown>(url: string, requestConfig: MakeRequestConfig): Promise<T> {
 		const { retries = this.config.retries ?? 0 } = requestConfig;
 		const fullUrl = this.config.basePath ? `${this.config.basePath}${url}` : url;
 
-		return doRequest<T>(fullUrl, {
+		const reqConfig = {
 			...this.defaultOptions(),
 			...requestConfig,
-		}).catch((e: unknown) => {
+		};
+
+		if (!!this.config.serialization?.input && !!reqConfig.body) {
+			reqConfig.body = this.config.serialization.input(reqConfig.body) as BodyInit;
+		}
+
+		try {
+			const response = await doRequest<T>(fullUrl, reqConfig);
+
+			if (this.config.serialization?.output) {
+				return this.config.serialization.output(response) as T;
+			}
+
+			return response;
+		} catch (error: unknown) {
 			if (retries > 0) {
 				return this.makeRequest<T>(url, {
 					...requestConfig,
 					retries: retries - 1,
 				});
 			}
-			throw e;
-		});
+			throw error;
+		}
 	}
 
 	async get<T = unknown>(url: string, options?: RequestOptions): Promise<T> {
