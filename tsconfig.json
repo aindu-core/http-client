@@ -1,9 +1,7 @@
 {
   "exclude": [
-    "src/test",
     "node_modules",
     "dist",
-    "jest.config.ts"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
@@ -31,7 +29,7 @@
 
     /* Modules */
     "module": "CommonJS" /* Specify what module code is generated. */,
-    "rootDir": "." /* Specify the root folder within your source files. */,
+    "rootDir": "./" /* Specify the root folder within your source files. */,
     "outDir": "dist",
     "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
