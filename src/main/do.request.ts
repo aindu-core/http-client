@@ -45,10 +45,7 @@ export type RequestConfig = WithoutUrlField<
 	}
 >;
 
-export async function doRequest<T = unknown>(
-	url: string,
-	requestConfig: RequestConfig
-): Promise<T> {
+export async function doRequest<T>(url: string, requestConfig: RequestConfig): Promise<T> {
 	const { timeout = 0, query = {}, ...requestInit } = requestConfig;
 
 	const controller = new AbortController();
