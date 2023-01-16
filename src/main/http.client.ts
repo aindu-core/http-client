@@ -20,7 +20,7 @@ export type MakeRequestConfig = RequestConfig & { retries?: number };
 export class HttpClient {
 	constructor(private readonly config: HttpClientConfig = {} as HttpClientConfig) {}
 
-	async makeRequest<T = unknown>(url: string, requestConfig: MakeRequestConfig): Promise<T> {
+	async makeRequest<T>(url: string, requestConfig: MakeRequestConfig): Promise<T> {
 		const { retries = this.config.retries ?? 0 } = requestConfig;
 		const fullUrl = this.config.basePath ? `${this.config.basePath}${url}` : url;
 
@@ -52,11 +52,11 @@ export class HttpClient {
 		}
 	}
 
-	async get<T = unknown>(url: string, options?: RequestOptions): Promise<T> {
+	async get<T>(url: string, options?: RequestOptions): Promise<T> {
 		return this.makeRequest<T>(url, { method: HttpMethod.GET, ...options });
 	}
 
-	async post<T = unknown>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
+	async post<T>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
 		return this.makeRequest<T>(url, {
 			method: HttpMethod.POST,
 			body: JSON.stringify(body),
@@ -64,7 +64,7 @@ export class HttpClient {
 		});
 	}
 
-	async put<T = unknown>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
+	async put<T>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
 		return this.makeRequest<T>(url, {
 			method: HttpMethod.PUT,
 			body: JSON.stringify(body),
@@ -72,14 +72,14 @@ export class HttpClient {
 		});
 	}
 
-	async delete<T = unknown>(url: string, options?: RequestOptions): Promise<T> {
+	async delete<T>(url: string, options?: RequestOptions): Promise<T> {
 		return this.makeRequest<T>(url, {
 			method: HttpMethod.DELETE,
 			...options,
 		});
 	}
 
-	async patch<T = unknown>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
+	async patch<T>(url: string, body: unknown, options?: RequestOptions): Promise<T> {
 		return this.makeRequest<T>(url, {
 			method: HttpMethod.PATCH,
 			body: JSON.stringify(body),
