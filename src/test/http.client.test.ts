@@ -42,9 +42,7 @@ describe("HttpClient Test Suite", () => {
 		});
 
 		const response = await client.put<{ status: string }>("http://test.com/test/1", {
-			body: {
-				field: "new value",
-			},
+			field: "new value",
 		});
 
 		expect(response).toEqual({ status: "PUT OK" });
@@ -59,7 +57,7 @@ describe("HttpClient Test Suite", () => {
 		});
 
 		const response = await client.patch<{ status: string }>("http://test.com", {
-			body: { field: "new value" },
+			field: "new value",
 		});
 
 		expect(response).toEqual({ status: "PATCH OK" });
@@ -74,7 +72,7 @@ describe("HttpClient Test Suite", () => {
 		});
 
 		const response = await client.post<{ status: string }>("http://test.com", {
-			body: { field: "field" },
+			field: "field",
 		});
 
 		expect(response).toEqual({ status: "POST OK" });
@@ -126,9 +124,7 @@ describe("HttpClient Test Suite", () => {
 
 		try {
 			await client.put<{ status: string }>("http://test.com/test/1", {
-				body: {
-					field: "new value",
-				},
+				field: "new value",
 			});
 
 			fail("Test shoueld be failed");
@@ -148,7 +144,7 @@ describe("HttpClient Test Suite", () => {
 
 		try {
 			await client.patch<{ status: string }>("http://test.com", {
-				body: { field: "new value" },
+				field: "new value",
 			});
 
 			fail("Test shoueld be failed");
@@ -168,7 +164,7 @@ describe("HttpClient Test Suite", () => {
 
 		try {
 			await client.post<{ status: string }>("http://test.com", {
-				body: { field: "field" },
+				field: "field",
 			});
 
 			fail("Test should be failed");
@@ -213,7 +209,7 @@ describe("HttpClient Test Suite", () => {
 		});
 
 		const response = await client.post<{ status: string }>("http://test.com", {
-			body: { complexFieldName: "Complex Field Name" },
+			complexFieldName: "Complex Field Name",
 		});
 
 		expect(fetch).toBeCalledWith("http://test.com", {
