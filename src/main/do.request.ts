@@ -1,5 +1,3 @@
-import { WithoutUrlField } from "./types";
-
 export enum HttpMethod {
 	GET = "get",
 	HEAD = "head",
@@ -12,7 +10,8 @@ export enum HttpMethod {
 	PATCH = "patch",
 }
 
-export type Query = Record<string, string | boolean | number | Array<unknown>>;
+export type Primitive = string | boolean | number;
+export type Query = Record<string, Primitive | Array<Primitive>>;
 
 function buildQueryParams(queryObject: Query): string {
 	const searchParams = new URLSearchParams("");
@@ -36,13 +35,12 @@ function cleanUrl(url: string): string {
 	return newUrl;
 }
 
-export class TimeoutError extends Error {}
-
-export type RequestConfig = WithoutUrlField<
+export type RequestConfig = Omit<
 	RequestInit & {
 		timeout?: number;
 		query?: Query;
-	}
+	},
+	"url"
 >;
 
 export async function doRequest<T>(url: string, requestConfig: RequestConfig): Promise<T> {
@@ -77,7 +75,7 @@ export async function doRequest<T>(url: string, requestConfig: RequestConfig): P
 		})
 		.catch((error: unknown) => {
 			if (controller.signal.aborted) {
-				throw new TimeoutError(`The request exceeds the timeout of [${timeout}]s`);
+				throw new Error(`The request exceeds the timeout of [${timeout}]s`);
 			}
 
 			throw error;

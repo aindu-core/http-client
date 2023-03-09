@@ -1,7 +1,6 @@
 import { doRequest, HttpMethod, RequestConfig } from "./do.request";
-import { WithoutBodyField } from "./types";
 
-export type RequestOptions = WithoutBodyField<RequestConfig> & {
+export type RequestOptions = Omit<RequestConfig, "body"> & {
 	retries?: number;
 };
 
@@ -18,7 +17,7 @@ export type HttpClientConfig = {
 export type MakeRequestConfig = RequestConfig & { retries?: number };
 
 export class HttpClient {
-	constructor(private readonly config: HttpClientConfig = {} as HttpClientConfig) {}
+	constructor(private readonly config: HttpClientConfig = {} as HttpClientConfig) { }
 
 	async makeRequest<T>(url: string, requestConfig: MakeRequestConfig): Promise<T> {
 		const { retries = this.config.retries ?? 0 } = requestConfig;
