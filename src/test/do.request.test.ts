@@ -1,4 +1,4 @@
-import { doRequest, HttpMethod, TimeoutError } from "../main/do.request";
+import { doRequest, HttpMethod } from "../main/do.request";
 
 describe("doRequest Test Suite", () => {
 	test("making request without any config should response correctly", async () => {
@@ -23,16 +23,21 @@ describe("doRequest Test Suite", () => {
 			status: 500,
 		});
 
-		try {
-			await doRequest("http://www.test.com/pepe", {
-				method: HttpMethod.GET,
-				timeout: 100,
-			});
+		const requestConfig = {
+			method: HttpMethod.GET,
+			timeout: 100,
+		};
 
-			fail("Test shoueld be failed");
+		try {
+			await doRequest("http://www.test.com/pepe", requestConfig);
+
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(fetch).toBeCalled();
-			expect(error).toBeInstanceOf(TimeoutError);
+			expect(error).toBeInstanceOf(Error);
+
+			const typedError = error as Error;
+			expect(typedError.message).toBe(`The request exceeds the timeout of [${requestConfig.timeout}]s`)
 		}
 	});
 
