@@ -4,8 +4,8 @@ on:
   pull_request:
     branches:
       - master
-      - "*_docs"
-      - "*_actions"
+      - "!*_docs"
+      - "!*_actions"
     types:
       - closed
 
