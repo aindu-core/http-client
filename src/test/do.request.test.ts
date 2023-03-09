@@ -41,7 +41,7 @@ describe("doRequest Test Suite", () => {
 		}
 	});
 
-	test("making request with quert params should response correctly", async () => {
+	test("making request with query params should response correctly", async () => {
 		global.fetch = jest.fn().mockResolvedValueOnce({
 			json: () => Promise.resolve({}),
 			ok: true,
@@ -74,7 +74,7 @@ describe("doRequest Test Suite", () => {
 				method: HttpMethod.GET,
 			});
 
-			fail("Test shoueld be failed");
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(fetch).toHaveBeenCalledWith("http://www.test.com/pepe", {
 				method: HttpMethod.GET,
