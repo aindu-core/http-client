@@ -2,12 +2,12 @@ import { HttpMethod } from "../main/do.request";
 import { HttpClient } from "../main/http.client";
 
 describe("HttpClient Test Suite", () => {
-	test("should create a new instance whitout errors and default config", () => {
+	test("should create a new instance without errors and default config", () => {
 		const client = new HttpClient();
 		expect(client).toBeDefined();
 	});
 
-	test("should can send get request correcly with default config", async () => {
+	test("should can send get request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -20,7 +20,7 @@ describe("HttpClient Test Suite", () => {
 		expect(response).toEqual({ status: "GET OK" });
 	});
 
-	test("should can send delete request correcly with default config", async () => {
+	test("should can send delete request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -33,7 +33,7 @@ describe("HttpClient Test Suite", () => {
 		expect(response).toEqual({ status: "DELETE OK" });
 	});
 
-	test("should can send put request correcly with default config", async () => {
+	test("should can send put request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -48,7 +48,7 @@ describe("HttpClient Test Suite", () => {
 		expect(response).toEqual({ status: "PUT OK" });
 	});
 
-	test("should can send patch request correcly with default config", async () => {
+	test("should can send patch request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -63,7 +63,7 @@ describe("HttpClient Test Suite", () => {
 		expect(response).toEqual({ status: "PATCH OK" });
 	});
 
-	test("should can send post request correcly with default config", async () => {
+	test("should can send post request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -78,7 +78,7 @@ describe("HttpClient Test Suite", () => {
 		expect(response).toEqual({ status: "POST OK" });
 	});
 
-	test("should fails sending get request correcly with default config", async () => {
+	test("should fails sending get request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -89,14 +89,14 @@ describe("HttpClient Test Suite", () => {
 		try {
 			await client.get<{ status: string }>("http://www.test.com");
 
-			fail("Test shoueld be failed");
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			expect((error as Error).message).toBe("GET fails");
 		}
 	});
 
-	test("should fails sending delete request correcly with default config", async () => {
+	test("should fails sending delete request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -107,14 +107,14 @@ describe("HttpClient Test Suite", () => {
 		try {
 			await client.delete<{ status: string }>("http://test.com/resource/1");
 
-			fail("Test shoueld be failed");
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			expect((error as Error).message).toBe("DELETE fails");
 		}
 	});
 
-	test("should fails sending put request correcly with default config", async () => {
+	test("should fails sending put request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -127,14 +127,14 @@ describe("HttpClient Test Suite", () => {
 				field: "new value",
 			});
 
-			fail("Test shoueld be failed");
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			expect((error as Error).message).toBe("PUT fails");
 		}
 	});
 
-	test("should can send patch request correcly with default config", async () => {
+	test("should can send patch request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -147,14 +147,14 @@ describe("HttpClient Test Suite", () => {
 				field: "new value",
 			});
 
-			fail("Test shoueld be failed");
+			fail("Test should be failed");
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			expect((error as Error).message).toBe("PATCH fails");
 		}
 	});
 
-	test("should can send post request correcly with default config", async () => {
+	test("should can send post request correctly with default config", async () => {
 		const client = new HttpClient();
 
 		global.fetch = jest.fn().mockResolvedValueOnce({
@@ -193,7 +193,7 @@ describe("HttpClient Test Suite", () => {
 		}
 	});
 
-	test("should can send post request correcly with serialization config", async () => {
+	test("should can send post request correctly with serialization config", async () => {
 		const serialization = {
 			input: jest.fn().mockReturnValue({ complex_field_name: "Complex Field Name" }),
 			output: jest.fn().mockReturnValue({ apiStatus: "POST OK" }),
